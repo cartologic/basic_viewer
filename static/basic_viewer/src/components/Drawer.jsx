@@ -1,4 +1,7 @@
+import CartoviewLegends from './Legend'
+import CollapsibleListItem from './CollapsibleItem'
 import HomeIcon from '@material-ui/icons/Home'
+import ImageIcon from '@material-ui/icons/Image'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -43,12 +46,15 @@ class CartoviewDrawer extends React.Component {
 				<NavBar />
 				<Paper className={classes.drawerPaper} elevation={0}>
 					<List disablePadding={true}>
-						<ListItem  button>
+						<ListItem button>
 							<ListItemIcon>
 								<HomeIcon />
 							</ListItemIcon>
 							<ListItemText primary="Home" />
 						</ListItem>
+						<CollapsibleListItem open={false} title="Legend" icon={<ImageIcon />}>
+							<CartoviewLegends />
+						</CollapsibleListItem>
 					</List>
 				</Paper>
 			</Paper>

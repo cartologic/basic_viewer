@@ -187,10 +187,11 @@ class MapConfigService {
 		layer.set('title', layerJson.title)
 		layer.set('server_url', serverURL)
 		layer.set('server_proxy', serverProxy)
+		layer.set('layer_type', layer_type)
 		return layer
 
 	}
-	load() {
+	load(callback = () => { }) {
 		var viewConfig = this.config.view
 		var layerConfig = this.config.layers
 		var remove = []
@@ -226,6 +227,7 @@ class MapConfigService {
 				view.setRotation(viewConfig.rotation)
 			}
 		}
+		callback()
 	}
 }
 export default MapConfigService

@@ -30,9 +30,13 @@ class BasicViewer extends Component {
             featureIdentifyResult: [],
             showPopup: false,
             activeFeature: 0,
+            legends: [],
             mouseCoordinates: [0, 0]
         }
         global.map = this.state.map
+    }
+    setLegends = (legends) => {
+        this.setState({ legends })
     }
     changeShowPopup = () => {
         const { showPopup } = this.state
@@ -96,7 +100,8 @@ class BasicViewer extends Component {
             nextFeature: this.nextFeature,
             previousFeature: this.previousFeature,
             changeShowPopup: this.changeShowPopup,
-            addOverlay: this.addOverlay
+            addOverlay: this.addOverlay,
+            setLegends: this.setLegends,
         }
     }
     identify = (evt) => {

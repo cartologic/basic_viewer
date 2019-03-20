@@ -1,9 +1,8 @@
 import { BasicViewerContext } from '../context'
+import LegendService from '../services/Legend'
 import MapConfigService from '../services/MapLoadService'
 import PropTypes from 'prop-types'
 import React from 'react'
-import TileLayer from 'ol/layer/tile'
-import TileWMS from 'ol/source/tilewms'
 import compose from 'recompose/compose'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
@@ -27,7 +26,10 @@ class MapViewer extends React.PureComponent {
 		}
 		if (prevProps.reduxMap != reduxMap) {
 			let service = new MapConfigService(map, reduxMap)
-			service.load()
+			service.load(() => {
+				const legends = LegendService.getLegends(map)
+				this.context.setLegends(legends)
+			})
 		}
 	}
 	render() {
