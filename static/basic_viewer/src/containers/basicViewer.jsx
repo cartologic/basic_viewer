@@ -19,7 +19,7 @@ import store from '../store'
 
 proj.setProj4(proj4)
 
-class BasicViewer extends React.PureComponent {
+class BasicViewer extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
