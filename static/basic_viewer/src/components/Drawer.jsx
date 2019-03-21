@@ -1,9 +1,11 @@
+import CartoviewLayerSwitcher from './LayerSwitcher'
 import CartoviewLegends from './Legend'
 import PrintTools from './PrintTools';
 import CollapsibleListItem from './CollapsibleItem'
 import HomeIcon from '@material-ui/icons/Home'
 import ImageIcon from '@material-ui/icons/Image'
 import PrintIcon from '@material-ui/icons/Print'
+import LayersIcons from '@material-ui/icons/Layers'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -54,6 +56,10 @@ class CartoviewDrawer extends React.Component {
 							<ListItemText primary="Home" />
 						</ListItem>
 
+						<CollapsibleListItem open={false} title="Layers" icon={<LayersIcons />}>
+							<CartoviewLayerSwitcher />
+						</CollapsibleListItem>
+						
 						<CollapsibleListItem open={false} title="Legend" icon={<ImageIcon />}>
 							<CartoviewLegends />
 						</CollapsibleListItem>
