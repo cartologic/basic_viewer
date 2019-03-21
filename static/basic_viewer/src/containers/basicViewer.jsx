@@ -3,8 +3,6 @@ import '../css/base.css'
 import 'ol/ol.css'
 import '../css/popup.css'
 
-import React, { Component } from 'react'
-
 import BasicViewerHelper from 'cartoview-sdk/helpers/BasicViewerHelper'
 import { BasicViewerProvider } from '../context'
 import ContentGrid from '../components/ContentGrid'
@@ -12,6 +10,7 @@ import FeatureIdentify from '../services/Identify'
 import FeaturesHelper from 'cartoview-sdk/helpers/FeaturesHelper'
 import Overlay from 'ol/overlay'
 import { Provider } from 'react-redux'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { fetchAppSettings } from '../api/index'
 import proj from 'ol/proj'
@@ -20,7 +19,7 @@ import store from '../store'
 
 proj.setProj4(proj4)
 
-class BasicViewer extends Component {
+class BasicViewer extends React.PureComponent {
     constructor(props) {
         super(props)
         this.state = {
@@ -31,12 +30,14 @@ class BasicViewer extends Component {
             showPopup: false,
             activeFeature: 0,
             legends: [],
-            mouseCoordinates: [0, 0]
+            mapLayers: [],
+            mouseCoordinates: [0, 0],
+            mapLoading: false
         }
         global.map = this.state.map
     }
-    setLegends = (legends) => {
-        this.setState({ legends })
+    setStateKey = (key, value, callback = () => { }) => {
+        this.setState({ [key]: value }, () => { callback() })
     }
     changeShowPopup = () => {
         const { showPopup } = this.state
@@ -58,6 +59,12 @@ class BasicViewer extends Component {
     }
     componentDidMount() {
         const { map } = this.state
+        map.on('change', (e) => {
+            console.log(map.sta)
+        })
+        map.on('rendercomplete', (e) => {
+            this.setState({ mapLoading: false })
+        })
         store.dispatch(fetchAppSettings(226))
         this.overlay = new Overlay({
             autoPan: true,
@@ -94,14 +101,13 @@ class BasicViewer extends Component {
     }
     getContextValue = () => {
         return {
-            reduxState: store.getState(),
             ...this.state,
             toggleDrawer: this.toggleDrawer,
             nextFeature: this.nextFeature,
             previousFeature: this.previousFeature,
             changeShowPopup: this.changeShowPopup,
             addOverlay: this.addOverlay,
-            setLegends: this.setLegends,
+            setStateKey: this.setStateKey
         }
     }
     identify = (evt) => {

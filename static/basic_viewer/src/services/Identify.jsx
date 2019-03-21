@@ -13,7 +13,8 @@ class FeatureIdentify {
 			const layerFeatures = {}
 
 			map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => {
-				const layer_name = layer.get('name')
+				const metadata = layer.get('metadata')
+				const layer_name = metadata['name']
 				if (layerFeatures[layer_name] === undefined) {
 					layerFeatures[layer_name] = []
 				}
@@ -23,14 +24,15 @@ class FeatureIdentify {
 		})
 		let identifyPromises = wmsLayers.map(
 			(layer) => {
-				const layerName = layer.get("name")
-				const serverProxy = layer.get("server_proxy")
+				const metadata = layer.get('metadata')
+				const layerName = metadata["name"]
+				const serverProxy = metadata["server_proxy"]
 				let identifyPromiseHandler = new Promise((resolve, reject) => {
 					const source = layer.getSource()
 					const url = source.getGetFeatureInfoUrl(
 						evt.coordinate, mapResolution, mapProjection, {
-							INFO_FORMAT: 'application/json',
-							FEATURE_COUNT: 10
+							"INFO_FORMAT": 'application/json',
+							"FEATURE_COUNT": 10
 						},
 					)
 					axios.get(`${serverProxy}${encodeURIComponent(url)}`).then(response => {

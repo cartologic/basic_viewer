@@ -68,7 +68,7 @@ const FeatureAttributesTable = withStyles(styles)((props) => {
 		<Table className={classes.table}>
 			<TableBody className={classes.table}>
 				{Object.keys(currentFeature.getProperties()).map((key, index) => {
-					if (key != "geometry" && key && key !== "layerName") {
+					if (key && key != "geometry" && key != 'layerName') {
 						let attibuteLabel = key
 						return (
 							<TableRow classes={{ root: classes.tableRow }} key={index}>
@@ -160,8 +160,23 @@ class CartoviewPopup extends React.PureComponent {
 			<div ref={node => this.node = node} id="popup" className="ol-popup-cartoview">
 				<Paper elevation={2}>
 					<div className={classnames("title-panel", { [classes.titlePanel]: true })}>
-						{featureIdentifyResult.length != 0 && <Typography type="body1" align="left" noWrap={true} color="default" className="element-flex title-text">{`Layer : ${currentFeature.get('layerName')}`}</Typography>}
-						<IconButton color="default" className={classnames({ 'hidden': activeFeature === 0, 'visible': activeFeature != 0, 'popup-buttons': true, [classes.button]: true })} buttonRef={(node) => this.prevButton = node} aria-label="Delete">
+						{featureIdentifyResult.length != 0 &&
+							<Typography
+								type="body1"
+								align="left"
+								noWrap={true}
+								color="default"
+								className="element-flex title-text">
+								{`Layer : ${currentFeature.get('layerName')}`}
+							</Typography>}
+						<IconButton
+							color="default"
+							className={classnames({
+								'hidden': activeFeature === 0,
+								'visible': activeFeature != 0,
+								'popup-buttons': true, [classes.button]: true
+							})} buttonRef={(node) => this.prevButton = node}
+							aria-label="Delete">
 							<ArrowLeft />
 						</IconButton>
 						<IconButton color="default"

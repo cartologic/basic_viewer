@@ -3,6 +3,7 @@ import Base from 'ol/layer/base'
 import BingMaps from 'ol/source/bingmaps'
 import CartoDB from 'ol/source/cartodb'
 import Cluster from 'ol/source/cluster'
+import FeaturesHelper from 'cartoview-sdk/helpers/FeaturesHelper'
 import GeoJSON from 'ol/format/geojson'
 import Group from 'ol/layer/group'
 import Heatmap from 'ol/layer/heatmap'
@@ -177,57 +178,72 @@ class MapConfigService {
 		const LayerClass = this.getLayerClass(layer_type)
 		const serverURL = layerJson.server_url
 		const serverProxy = layerJson.server_proxy
+		let layerMetadata = {
+			'name': layerJson.name,
+			'title': layerJson.title,
+			'server_url': serverURL,
+			'server_proxy': serverProxy,
+			'layer_type': layer_type,
+			'bbox': layerJson.bounding_box,
+			'projection': layerJson.projection,
+
+		}
 		let layer = new LayerClass({
 			source: this.getSource(layerJson)
 		})
 		if (layer_type == 'wfs') {
 			layer.setStyle(this.styleHelper.styleFunction)
 		}
-		layer.set('name', layerJson.name)
-		layer.set('title', layerJson.title)
-		layer.set('server_url', serverURL)
-		layer.set('server_proxy', serverProxy)
-		layer.set('layer_type', layer_type)
+		layer.set('metadata', layerMetadata)
+
 		return layer
 
 	}
 	load(callback = () => { }) {
+
 		var viewConfig = this.config.view
-		var layerConfig = this.config.layers
-		var remove = []
-		let map = this.map
-		map.getLayers().forEach((lyr) => {
-			if (lyr.get('title') !== null && lyr.get('title') !== "OpenStreetMap") {
-				remove.push(lyr)
+		const viewProj = viewConfig.projection
+		const projCode = viewProj.split(':').pop()
+		FeaturesHelper.getCRS(projCode).then(newCRS => {
+			var layerConfig = this.config.layers
+			var remove = []
+			let map = this.map
+			map.getLayers().forEach((lyr) => {
+				const metadata = lyr.get('metadata')
+				if (metadata && metadata['title'] !== null) {
+					remove.push(lyr)
+				}
+			})
+			var i, ii
+			for (i = 0, ii = remove.length; i < ii; ++i) {
+				map.removeLayer(remove[i])
 			}
-		})
-		var i, ii
-		for (i = 0, ii = remove.length; i < ii; ++i) {
-			map.removeLayer(remove[i])
-		}
-		for (i = 0, ii = layerConfig.length; i < ii; ++i) {
-			var layer = this.generateLayerFromConfig(layerConfig[i])
-			if (layer) {
-				map.addLayer(layer)
+			for (i = 0, ii = layerConfig.length; i < ii; ++i) {
+				var layer = this.generateLayerFromConfig(layerConfig[i])
+				if (layer) {
+					map.addLayer(layer)
+				}
+
 			}
 
-		}
-		var view = map.getView(),
-			proj = olProj.get(viewConfig.projection);
-		if (proj && !olProj.equivalent(view.getProjection(), proj)) {
-			map.setView(new View(viewConfig))
-		} else {
-			view.setCenter(viewConfig.center)
-			if (viewConfig.resolution !== undefined) {
-				view.setResolution(viewConfig.resolution);
-			} else if (viewConfig.zoom !== undefined) {
-				view.setZoom(viewConfig.zoom);
+			var view = map.getView(),
+				proj = olProj.get(viewConfig.projection);
+			if (proj && !olProj.equivalent(view.getProjection(), proj)) {
+				map.setView(new View(viewConfig))
+			} else {
+				view.setCenter(viewConfig.center)
+				if (viewConfig.resolution !== undefined) {
+					view.setResolution(viewConfig.resolution);
+				} else if (viewConfig.zoom !== undefined) {
+					view.setZoom(viewConfig.zoom);
+				}
+				if (viewConfig.rotation !== undefined) {
+					view.setRotation(viewConfig.rotation)
+				}
 			}
-			if (viewConfig.rotation !== undefined) {
-				view.setRotation(viewConfig.rotation)
-			}
-		}
-		callback()
+			callback()
+		})
+
 	}
 }
 export default MapConfigService

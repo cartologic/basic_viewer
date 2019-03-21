@@ -2,13 +2,14 @@ import LayersHelper from 'cartoview-sdk/helpers/LayersHelper'
 import { resolveURL } from './utils'
 class LegendService {
 	getLegendURL(layer) {
-		let serverProxy = layer.get('server_proxy')
+		const metadata = layer.get('metadata')
+		let serverProxy = metadata['server_proxy']
 		let wmsURL = this.getLayerURL(layer)
 		let query = {
 			'REQUEST': 'GetLegendGraphic',
 			'VERSION': '1.0.0',
 			'FORMAT': 'image/png',
-			"LAYER": layer.getProperties().name
+			"LAYER": metadata['name']
 		}
 		wmsURL = new URL('', wmsURL)
 		const keys = Object.keys(query)
@@ -41,8 +42,9 @@ class LegendService {
 		for (let index = 0; index < wmsLayers.length; index++) {
 			const lyr = wmsLayers[index]
 			if (lyr.getVisible()) {
+				const metadata = lyr.get('metadata')
 				let legend = {
-					layer: lyr.get('name'),
+					layer: metadata['name'],
 					url: this.getLegendURL(lyr)
 				}
 				legends.push(legend)

@@ -24,11 +24,23 @@ class MapViewer extends React.PureComponent {
 		if (prevProps.width !== width) {
 			map.updateSize()
 		}
-		if (prevProps.reduxMap != reduxMap) {
+		if (prevProps.reduxMap !== reduxMap) {
 			let service = new MapConfigService(map, reduxMap)
 			service.load(() => {
-				const legends = LegendService.getLegends(map)
-				this.context.setLegends(legends)
+				const { setStateKey } = this.context
+				setStateKey('mapLoading', false, () => {
+					const legends = LegendService.getLegends(map)
+					setStateKey('legends', legends)
+					let layers = map.getLayers().getArray()
+					layers = [...layers].reverse().filter(layer => {
+						const metadata = layer.get('metadata')
+						if (metadata && metadata['name'] !== undefined) {
+							return true
+						}
+						return false
+					})
+					setStateKey('mapLayers', layers)
+				})
 			})
 		}
 	}
