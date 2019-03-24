@@ -20,7 +20,6 @@ let mapInitialState = {
     loadTilesWhileAnimating: false,
     loadTilesWhileInteracting: false,
     moveTolerance: 1,
-    ol_map: BasicViewerHelper.getMap(),
 }
 
 

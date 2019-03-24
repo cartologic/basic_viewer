@@ -36,7 +36,7 @@ class LegendService {
 		wmsURL = resolveURL(wmsURL)
 		return wmsURL
 	}
-	getLegends() {
+	getLegends(map) {
 		const wmsLayers = LayersHelper.getLayers(map.getLayers().getArray()).reverse()
 		let legends = []
 		for (let index = 0; index < wmsLayers.length; index++) {
