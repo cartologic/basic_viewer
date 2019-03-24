@@ -131,17 +131,7 @@ class MapConfigService {
 				url: `${serverURL}`,
 				tileLoadFunction: (tile, src) => {
 					const url = `${serverProxy}${encodeURIComponent(src)}`
-
-					axios.get(url, {
-						headers: { "X-CSRFToken": getCRSFToken() },
-						responseType: "blob",
-					}).then(response => {
-						const data = response.data
-						var url = window.URL || window.webkitURL;
-						tile.getImage().src = url.createObjectURL(data)
-					}).catch(error => {
-						console.error(error.message)
-					})
+					tile.getImage().src = url
 				}
 			}
 			s = new sourceClass(params)
@@ -178,11 +168,13 @@ class MapConfigService {
 		const LayerClass = this.getLayerClass(layer_type)
 		const serverURL = layerJson.server_url
 		const serverProxy = layerJson.server_proxy
+		const serverOperations = layerJson.server_operations
 		let layerMetadata = {
 			'name': layerJson.name,
 			'title': layerJson.title,
 			'server_url': serverURL,
 			'server_proxy': serverProxy,
+			"server_operations": serverOperations,
 			'layer_type': layer_type,
 			'bbox': layerJson.bounding_box,
 			'projection': layerJson.projection,
