@@ -39,7 +39,7 @@ module.exports = (env, argv) => {
             basicViewer: [path.join(APP_DIR, 'containers',
                 'basicViewer.jsx'),],
             configPage: [path.join(APP_DIR, 'containers',
-                'configPage.jsx'),],
+                'configWizard.jsx'),],
         },
         output: {
             path: path.resolve(__dirname, './dist'),
