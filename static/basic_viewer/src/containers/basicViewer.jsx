@@ -2,6 +2,7 @@ import "@babel/polyfill/noConflict"
 import '../css/base.css'
 import 'ol/ol.css'
 import '../css/popup.css'
+import '../css/configWizard.css'
 
 import BasicViewerHelper from 'cartoview-sdk/helpers/BasicViewerHelper'
 import { BasicViewerProvider } from '../context'

@@ -1,0 +1,15 @@
+
+.cartoviewNavList {
+    border: 2px solid #e2e2e2;
+    padding: 10px;
+}
+
+.tab-content {
+    border: 1px #e2e2e2 solid;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.top-buffer{
+     margin-top:20px;
+}

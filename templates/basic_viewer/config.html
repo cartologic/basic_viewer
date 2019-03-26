@@ -1,6 +1,10 @@
 {% extends 'cartoview/base.html' %}
 {% load static %}
 
+{% block extra_head %}
+{{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'basic_viewer/dist/basicViewer.css' %}" />
+{% endblock extra_head %}
 
 {% block content %}
 {{ block.super }}

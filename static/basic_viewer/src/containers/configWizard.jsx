@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { Container } from 'reactstrap';
+
 import store from '../store/configWizard';
+import AppHeader from '../components/configWizard/AppHeader';
+import ContentGrid from '../components/configWizard/ContentGrid';
 
 
 class ConfigWizard extends React.Component {
@@ -9,11 +13,12 @@ class ConfigWizard extends React.Component {
     render() {
         return (
             <Provider store={store}>
-                <React.Fragment>
-
-                </React.Fragment>
+                <Container>
+                    <AppHeader />
+                    <ContentGrid />
+                </Container>
             </Provider>
-           
+
         )
     }
 
