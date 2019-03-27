@@ -3,12 +3,12 @@ import axios from 'axios'
 import { getCRSFToken } from './utils'
 import { setAppSettingsAction } from '../actions/app'
 import { setWebMapAction } from '../actions/map'
-const apiInstance = axios.create( {
+const apiInstance = axios.create({
     baseURL: `${window.location.origin}/api/`,
     timeout: 1000,
     headers: { "X-CSRFToken": getCRSFToken() }
-} )
-export function mapJsonSerializer( mapJson ) {
+})
+export function mapJsonSerializer(mapJson) {
     const map = {
         name: mapJson.title,
         layers: mapJson.layers,
@@ -31,24 +31,28 @@ export function mapJsonSerializer( mapJson ) {
     }
     return map
 }
-export function fetchAppSettings( id ) {
-    return ( dispatch ) => {
-        return apiInstance.get( `appinstance/${id}` ).then( response => {
+export function fetchAppSettings(id) {
+    return (dispatch) => {
+        return apiInstance.get(`appinstance/${id}`).then(response => {
             const data = response.data
-            dispatch( setAppSettingsAction( {
+            dispatch(setAppSettingsAction({
                 ...data.config,
                 title: data.title,
                 description: data.description
-            } ) )
-            axios.get( data.map_url, {
+            }))
+            axios.get(data.map_url, {
                 headers: { "X-CSRFToken": getCRSFToken() }
-            } ).then( response => {
-                dispatch( setWebMapAction(
-                    mapJsonSerializer( response.data )
-                ) )
-            } )
-        } ).catch( error => {
-            dispatch( addError( error.message ) )
-        } )
+            }).then(response => {
+                dispatch(setWebMapAction(
+                    mapJsonSerializer(response.data)
+                ))
+            })
+        }).catch(error => {
+            dispatch(addError(error.message))
+        })
     }
+}
+
+export function getMaps(offset, limit) {
+    return apiInstance.get(`maps/?offset=${offset}&limit=${limit}`);
 }

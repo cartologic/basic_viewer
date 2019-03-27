@@ -1,5 +1,7 @@
 import React from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
+
+import MapSelector from './MapSelector';
 
 class WizardTabs extends React.Component {
 
@@ -30,7 +32,7 @@ class WizardTabs extends React.Component {
                             <NavLink
                                 className={this.state.activeTab === '1' ? "active" : null}
                                 onClick={() => { this.toggle('1'); }}>
-                                Tab1
+                                Select Map
                                 </NavLink>
                         </NavItem>
                         <NavItem>
@@ -44,24 +46,20 @@ class WizardTabs extends React.Component {
                 </Col>
 
                 <Col lg={9}>
-                    <Col lg={12}>
-                        <TabContent className="tab-content" activeTab={this.state.activeTab}>
-                            <TabPane tabId="1">
-                                <Row>
-                                    <Col sm="12">
-                                        <h4>Tab 1 Contents</h4>
-                                    </Col>
-                                </Row>
-                            </TabPane>
-                            <TabPane tabId="2">
-                                <Row>
-                                    <Col sm="12">
-                                        <h4>Tab 2  Contents</h4>
-                                    </Col>
-                                </Row>
-                            </TabPane>
-                        </TabContent>
-                    </Col>
+                    <TabContent activeTab={this.state.activeTab}>
+                        <TabPane tabId="1">
+                            <Row>
+                                <MapSelector />
+                            </Row>
+                        </TabPane>
+                        <TabPane tabId="2">
+                            <Row>
+                                <Col sm="12">
+                                    <h4>Tab 2  Contents</h4>
+                                </Col>
+                            </Row>
+                        </TabPane>
+                    </TabContent>
                 </Col>
             </React.Fragment>
         );

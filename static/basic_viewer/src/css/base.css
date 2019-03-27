@@ -44,7 +44,7 @@ body {
 
 .card-img {
     /*Image should be a div*/
-    height: 300px !important;
+    height: 200px !important;
 }
 
 .card-img img {
@@ -76,7 +76,7 @@ body,
 html {
     margin: 0px;
     height: 100%;
-    overflow: hidden;
+    overflow: unset;
 }
 
 .input-range__label--min,
