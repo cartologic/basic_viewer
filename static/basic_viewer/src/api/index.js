@@ -56,3 +56,9 @@ export function fetchAppSettings(id) {
 export function getMaps(offset, limit) {
     return apiInstance.get(`maps/?offset=${offset}&limit=${limit}`);
 }
+
+export function getMapsByTitle(offset, limit, title) {
+    return apiInstance.get(`maps/?offset=${offset}&limit=${limit}&title__contains=${title}`);
+}
+
+

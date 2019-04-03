@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 
-import MapSelector from './MapSelector';
+import MapSelector from './wizardTabs/MapSelector';
+import GeneralConfig from './wizardTabs/GeneralConfig';
 
 class WizardTabs extends React.Component {
 
@@ -38,8 +40,36 @@ class WizardTabs extends React.Component {
                         <NavItem>
                             <NavLink
                                 className={this.state.activeTab === '2' ? "active" : null}
-                                onClick={() => { this.toggle('2'); }}>
-                                Tab 2
+                                onClick={() => { this.toggle('2'); }} disabled={!this.props.isAnyMapSelected}>
+                                General
+                                </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                className={this.state.activeTab === '3' ? "active" : null}
+                                onClick={() => { this.toggle('3'); }} disabled={!this.props.isAnyMapSelected}>
+                                Access Configuration
+                                </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                className={this.state.activeTab === '4' ? "active" : null}
+                                onClick={() => { this.toggle('4'); }} disabled={!this.props.isAnyMapSelected}>
+                                Bookmarks
+                                </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                className={this.state.activeTab === '5' ? "active" : null}
+                                onClick={() => { this.toggle('5'); }} disabled={!this.props.isAnyMapSelected}>
+                                GeoCoding
+                                </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                className={this.state.activeTab === '6' ? "active" : null}
+                                onClick={() => { this.toggle('6'); }} disabled={!this.props.isAnyMapSelected}>
+                                Navigation Tools
                                 </NavLink>
                         </NavItem>
                     </Nav>
@@ -52,10 +82,11 @@ class WizardTabs extends React.Component {
                                 <MapSelector />
                             </Row>
                         </TabPane>
-                        <TabPane tabId="2">
+
+                        <TabPane tabId="2" >
                             <Row>
                                 <Col sm="12">
-                                    <h4>Tab 2  Contents</h4>
+                                    <GeneralConfig />
                                 </Col>
                             </Row>
                         </TabPane>
@@ -66,4 +97,10 @@ class WizardTabs extends React.Component {
     }
 }
 
-export default WizardTabs;
+const mapStateToProps = state => {
+    return {
+        isAnyMapSelected: state.appInstance.map_url != null,
+    }
+}
+
+export default connect(mapStateToProps)(WizardTabs);

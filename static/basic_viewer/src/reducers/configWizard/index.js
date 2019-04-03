@@ -1,9 +1,7 @@
 import { combineReducers } from 'redux';
-import { map } from './map';
+import { appInstance } from './appInstance';
 
 
-// export default combineReducers( {
-//     map,
-// } )
-
-export default map;
+export default combineReducers({
+    appInstance
+})
