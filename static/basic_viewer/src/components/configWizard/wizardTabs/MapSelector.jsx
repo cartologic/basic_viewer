@@ -111,7 +111,7 @@ class MapSelector extends Component {
 }
 const mapStateToProps = state => {
     return {
-        isAnyMapSelected: state.appInstance.map_url != null,
+        isAnyMapSelected: state.appInstance.app_map != null,
     }
 }
 const mapDispatchToProps = dispatch => {
