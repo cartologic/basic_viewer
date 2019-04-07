@@ -48,6 +48,30 @@ export function appInstance(state = appInitialState, action) {
         };
     };
 
+    const updateBookmark = (state, bookmark, index) => {
+        let newBookmarks = [...state.config.bookmarks];
+        newBookmarks.splice(index, 1, bookmark);
+
+        let newConfig = { ...state.config };
+        newConfig.bookmarks = newBookmarks;
+        return {
+            ...state,
+            config: newConfig
+        };
+    };
+
+    const removeBookmark = (state, index) => {
+        let newBookmarks = [...state.config.bookmarks];
+        newBookmarks.splice(index, 1);
+
+        let newConfig = { ...state.config };
+        newConfig.bookmarks = newBookmarks;
+        return {
+            ...state,
+            config: newConfig
+        };
+    };
+
     switch (action.type) {
         case actionTypes.SET_INITIAL_DATA:
             return setAppInstanceInitialData(state, action.map);
@@ -63,6 +87,13 @@ export function appInstance(state = appInitialState, action) {
 
         case actionTypes.ADD_BOOKMARK:
             return addBookmark(state, action.bookmark);
+
+        case actionTypes.UPDATE_BOOKMARK:
+            return updateBookmark(state, action.bookmark, action.index);
+
+        case actionTypes.REMOVE_BOOKMARK:
+            return removeBookmark(state, action.index);
+
 
         default:
             return state

@@ -3,5 +3,7 @@ export {
     resetSelectedMap,
     setTitle,
     setDescription,
-    addBookmark
+    addBookmark,
+    updateBookmark,
+    removeBookmark
 } from './appInstance';

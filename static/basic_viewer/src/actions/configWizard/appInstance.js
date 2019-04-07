@@ -34,3 +34,18 @@ export const addBookmark = (bookmark) => {
         bookmark: bookmark
     };
 };
+
+export const updateBookmark = (bookmark, index) => {
+    return {
+        type: actionTypes.UPDATE_BOOKMARK,
+        bookmark: bookmark,
+        index: index
+    };
+};
+
+export const removeBookmark = (index) => {
+    return {
+        type: actionTypes.REMOVE_BOOKMARK,
+        index: index
+    };
+};

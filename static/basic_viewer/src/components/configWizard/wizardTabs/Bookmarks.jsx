@@ -16,7 +16,6 @@ class Bookmarks extends Component {
         super(props);
         this.state = {
             map: null,
-            bookmarks: [],
             enableBookmarking: false,
             bookmarkButtonText: 'Add Bookmark'
         }
@@ -56,31 +55,36 @@ class Bookmarks extends Component {
 
     componentDidMount() {
         let initialMap = this.getInitialMap();
-        this.setState({ map: initialMap, bookmarks: this.props.bookmarks });
+        this.setState({ map: initialMap });
     }
 
     addBookmark = () => {
-        let newBookmarks = [... this.state.bookmarks];
         this.state.map.once('postcompose', (event) => {
             let newBookmark = {
                 name: '',
+                description: '',
+                extent: this.state.map.getView().calculateExtent().join('/'),
                 thumbnailDataURL: event.context.canvas.toDataURL(),
-                extent: this.state.map.getView().calculateExtent().join('/')
             }
             this.props.addBookmark(newBookmark);
-
-            newBookmarks.push(newBookmark);
-            this.setState({
-                bookmarks: newBookmarks
-            });
         });
         this.state.map.renderSync();
     }
 
     removeBookmark = (index) => {
-        let newBookmarks = [...this.state.bookmarks]
-        newBookmarks.splice(index, 1)
-        this.setState({ bookmarks: newBookmarks })
+        this.props.removeBookmark(index);
+    }
+
+    onNameChangeHandler = index => event => {
+        let editedOne = this.props.bookmarks[index];
+        editedOne.name = event.target.value;
+        this.props.updateBookmark(editedOne, index);
+    }
+
+    onDescriptionChangeHandler = index => event => {
+        let editedOne = this.props.bookmarks[index];
+        editedOne.description = event.target.value;
+        this.props.updateBookmark(editedOne, index);
     }
 
     render() {
@@ -96,13 +100,13 @@ class Bookmarks extends Component {
                 </Row>
                 <Row>
                     <Col lg={12}>
-                        {this.state.bookmarks.reverse().map((bookmark, index) => {
+                        {this.props.bookmarks.map((bookmark, index) => {
                             return <div key={index} >
                                 <div className='bookmark-item'>
                                     <img src={bookmark.thumbnailDataURL} className="bookmark-image" alt="Bookmark Thumbnail" />
                                     <div className="bookmar-form-group">
-                                        <Input type="text" value={bookmark.name} id={`name${index}`} placeholder="Name" className='mb-2' />
-                                        <Input type="textarea" value={bookmark.description} id={`description${index}`} placeholder="Description" />
+                                        <Input value={bookmark.name} type="text" onChange={this.onNameChangeHandler(index)} id={`name${index}`} placeholder="Name" className='mb-2' />
+                                        <Input value={bookmark.description} type="textarea" onChange={this.onDescriptionChangeHandler(index)} id={`description${index}`} placeholder="Description" />
                                     </div>
                                     <Button color="danger" onClick={() => this.removeBookmark(index)}>Remove</Button>
                                 </div><hr />
@@ -126,6 +130,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addBookmark: (bookmark) => dispatch(actions.addBookmark(bookmark)),
+        updateBookmark: (bookmark, index) => dispatch(actions.updateBookmark(bookmark, index)),
+        removeBookmark: (index) => dispatch(actions.removeBookmark(index)),
     }
 };
 
