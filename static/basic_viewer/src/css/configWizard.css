@@ -227,3 +227,25 @@
   background-color: #fff;
   cursor: not-allowed;
 }
+
+.bookmark-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.bookmark-map{
+  height: 300px;
+  display: block;
+}
+
+.bookmark-image{
+  height: 150px;
+  width: 220px;
+}
+
+.bookmark-form-group{
+    width: -webkit-fill-available;
+    padding: 20px;
+    margin-bottom: 0;
+}

@@ -4,12 +4,12 @@ import { Card, Input, CardBody, CardText, CardImg, Button, CardTitle, Col, Label
 
 import * as actions from '../../../actions/configWizard/index';
 
+
 class MapCard extends Component {
 
     onChangeHandler = (event) => {
         this.props.setAppInstanceInitialData(this.props.map);
     }
-
 
     render() {
 

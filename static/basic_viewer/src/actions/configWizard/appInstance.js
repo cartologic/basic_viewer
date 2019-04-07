@@ -27,3 +27,10 @@ export const setDescription = (description) => {
         description: description
     };
 };
+
+export const addBookmark = (bookmark) => {
+    return {
+        type: actionTypes.ADD_BOOKMARK,
+        bookmark: bookmark
+    };
+};

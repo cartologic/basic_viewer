@@ -2,5 +2,6 @@ export {
     setAppInstanceInitialData,
     resetSelectedMap,
     setTitle,
-    setDescription
+    setDescription,
+    addBookmark
 } from './appInstance';

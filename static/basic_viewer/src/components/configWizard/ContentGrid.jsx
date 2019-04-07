@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Row } from 'reactstrap';
 
-
 import WizardTabs from './WizardTabs';
+
 
 class ContentGrid extends Component {
 

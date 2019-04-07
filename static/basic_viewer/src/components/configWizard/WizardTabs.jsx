@@ -4,6 +4,8 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap
 
 import MapSelector from './wizardTabs/MapSelector';
 import GeneralConfig from './wizardTabs/GeneralConfig';
+import Bookmarks from './wizardTabs/Bookmarks';
+
 
 class WizardTabs extends React.Component {
 
@@ -54,7 +56,7 @@ class WizardTabs extends React.Component {
                         <NavItem>
                             <NavLink
                                 className={this.state.activeTab === '4' ? "active" : null}
-                                onClick={() => { this.toggle('4'); }} disabled={!this.props.isAnyMapSelected}>
+                                onClick={() => { this.toggle('4'); }} disabled={!this.props.isAnyMapSelected} >
                                 Bookmarks
                                 </NavLink>
                         </NavItem>
@@ -90,6 +92,13 @@ class WizardTabs extends React.Component {
                                 </Col>
                             </Row>
                         </TabPane>
+                        <TabPane tabId="4" >
+                            <Row>
+                                <Col sm="12">
+                                    {this.state.activeTab == 4 ? <Bookmarks /> : null}
+                                </Col>
+                            </Row>
+                        </TabPane>
                     </TabContent>
                 </Col>
             </React.Fragment>
@@ -99,7 +108,7 @@ class WizardTabs extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        isAnyMapSelected: state.appInstance.map_url != null,
+        isAnyMapSelected: state.appInstance.app_map != null,
     }
 }
 
