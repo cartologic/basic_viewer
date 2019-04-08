@@ -49,3 +49,10 @@ export const removeBookmark = (index) => {
         index: index
     };
 };
+
+export const updateNavTool = (navToolId) => {
+    return {
+        type: actionTypes.UPDATE_NAV_TOOL,
+        id: navToolId
+    };
+};

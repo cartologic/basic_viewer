@@ -1,4 +1,5 @@
 import * as actionTypes from '../../actions/configWizard/constants';
+import { updateNavTool } from '../../actions/configWizard';
 
 
 let appInitialState = {
@@ -13,7 +14,7 @@ let appInitialState = {
         showExportMap: true,
         showLegend: true,
         bookmarks: []
-    }    
+    }
 }
 
 export function appInstance(state = appInitialState, action) {
@@ -77,6 +78,15 @@ export function appInstance(state = appInitialState, action) {
         };
     };
 
+    const updateNavTool = (state, id) => {
+        let newConfig = { ...state.config };
+        newConfig[id] = !newConfig[id];
+        return {
+            ...state,
+            config: newConfig
+        };
+    };
+
     switch (action.type) {
         case actionTypes.SET_INITIAL_DATA:
             return setAppInstanceInitialData(state, action.map);
@@ -99,6 +109,8 @@ export function appInstance(state = appInitialState, action) {
         case actionTypes.REMOVE_BOOKMARK:
             return removeBookmark(state, action.index);
 
+        case actionTypes.UPDATE_NAV_TOOL:
+            return updateNavTool(state, action.id);
 
         default:
             return state

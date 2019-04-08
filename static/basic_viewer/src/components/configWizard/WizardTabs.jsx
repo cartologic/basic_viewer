@@ -5,6 +5,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap
 import MapSelector from './wizardTabs/MapSelector';
 import GeneralConfig from './wizardTabs/GeneralConfig';
 import Bookmarks from './wizardTabs/Bookmarks';
+import NavigationTools from './wizardTabs/NavigationTools';
 
 
 class WizardTabs extends React.Component {
@@ -15,87 +16,66 @@ class WizardTabs extends React.Component {
         this.toggle = this.toggle.bind(this);
 
         this.state = {
-            activeTab: '1'
+            activeTab: 'MapSelector'
         };
     }
 
     toggle(tab) {
         if (this.state.activeTab !== tab) {
-            this.setState({
-                activeTab: tab
-            });
+            this.setState({ activeTab: tab });
         }
     }
 
     render() {
+        let NavListItmes = [
+            { id: 'MapSelector', displayName: 'Select Map' },
+            { id: 'GeneralConfig', displayName: 'General' },
+            { id: 'AccessConfig', displayName: 'Access Configuration' },
+            { id: 'Bookmarks', displayName: 'Bookmakrs' },
+            { id: 'NavTools', displayName: 'Navigation Tools' }];
+
         return (
             <React.Fragment>
                 <Col lg={3}>
                     <Nav tabs vertical pills className="cartoviewNavList">
-                        <NavItem>
-                            <NavLink
-                                className={this.state.activeTab === '1' ? "active" : null}
-                                onClick={() => { this.toggle('1'); }}>
-                                Select Map
+                        {NavListItmes.map(item => {
+                            return <NavItem key={item.id}>
+                                <NavLink
+                                    className={this.state.activeTab === item.id ? "active" : null}
+                                    disabled={!this.props.isAnyMapSelected}
+                                    onClick={() => this.toggle(item.id)}>
+                                    {item.displayName}
                                 </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                className={this.state.activeTab === '2' ? "active" : null}
-                                onClick={() => { this.toggle('2'); }} disabled={!this.props.isAnyMapSelected}>
-                                General
-                                </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                className={this.state.activeTab === '3' ? "active" : null}
-                                onClick={() => { this.toggle('3'); }} disabled={!this.props.isAnyMapSelected}>
-                                Access Configuration
-                                </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                className={this.state.activeTab === '4' ? "active" : null}
-                                onClick={() => { this.toggle('4'); }} disabled={!this.props.isAnyMapSelected} >
-                                Bookmarks
-                                </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                className={this.state.activeTab === '5' ? "active" : null}
-                                onClick={() => { this.toggle('5'); }} disabled={!this.props.isAnyMapSelected}>
-                                GeoCoding
-                                </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                className={this.state.activeTab === '6' ? "active" : null}
-                                onClick={() => { this.toggle('6'); }} disabled={!this.props.isAnyMapSelected}>
-                                Navigation Tools
-                                </NavLink>
-                        </NavItem>
+                            </NavItem>
+                        })}
                     </Nav>
                 </Col>
 
                 <Col lg={9}>
                     <TabContent activeTab={this.state.activeTab}>
-                        <TabPane tabId="1">
+                        <TabPane tabId="MapSelector">
                             <Row>
                                 <MapSelector />
                             </Row>
                         </TabPane>
-
-                        <TabPane tabId="2" >
+                        <TabPane tabId="GeneralConfig" >
                             <Row>
                                 <Col sm="12">
                                     <GeneralConfig />
                                 </Col>
                             </Row>
                         </TabPane>
-                        <TabPane tabId="4" >
+                        <TabPane tabId="Bookmarks" >
                             <Row>
                                 <Col sm="12">
-                                    {this.state.activeTab == 4 ? <Bookmarks /> : null}
+                                    {this.state.activeTab == "Bookmarks" ? <Bookmarks /> : null}
+                                </Col>
+                            </Row>
+                        </TabPane>
+                        <TabPane tabId="NavTools" >
+                            <Row>
+                                <Col sm="12">
+                                    <NavigationTools />
                                 </Col>
                             </Row>
                         </TabPane>
