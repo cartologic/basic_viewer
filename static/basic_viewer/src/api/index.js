@@ -1,13 +1,17 @@
-import { addError } from '../actions/errors'
 import axios from 'axios'
+
+import { addError } from '../actions/errors'
 import { getCRSFToken } from './utils'
 import { setAppSettingsAction } from '../actions/app'
 import { setWebMapAction } from '../actions/map'
+
+
 const apiInstance = axios.create({
     baseURL: `${window.location.origin}/api/`,
     timeout: 1000,
     headers: { "X-CSRFToken": getCRSFToken() }
 })
+
 export function mapJsonSerializer(mapJson) {
     const map = {
         name: mapJson.title,
@@ -31,6 +35,7 @@ export function mapJsonSerializer(mapJson) {
     }
     return map
 }
+
 export function fetchAppSettings(id) {
     return (dispatch) => {
         return apiInstance.get(`appinstance/${id}`).then(response => {
@@ -58,7 +63,7 @@ export function getMaps(offset, limit) {
 }
 
 export function getMapsByTitle(offset, limit, title) {
-    return apiInstance.get(`maps/?offset=${offset}&limit=${limit}&title__contains=${title}`);
+    return apiInstance.get(`maps/?offset=${offset}&limit=${limit}&title__icontains=${title}`);
 }
 
 

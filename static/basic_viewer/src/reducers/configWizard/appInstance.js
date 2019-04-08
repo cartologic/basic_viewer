@@ -7,8 +7,13 @@ let appInitialState = {
     title: null,
     description: null,
     config: {
+        enableHistory: true,
+        enableFeatureTable: true,
+        showLayerSwitcher: true,
+        showExportMap: true,
+        showLegend: true,
         bookmarks: []
-    }
+    }    
 }
 
 export function appInstance(state = appInitialState, action) {
