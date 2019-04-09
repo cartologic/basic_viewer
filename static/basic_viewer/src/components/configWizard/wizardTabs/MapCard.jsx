@@ -12,14 +12,10 @@ class MapCard extends Component {
     }
 
     render() {
-
         return (
             <Label check className="radio-container">
-                <Input type="radio" name="selectedMapRadio"
-                    onChange={this.onChangeHandler}
-                />
+                <Input type="radio" name="selectedMapRadio" onChange={this.onChangeHandler} />
                 <span className="checkmark"></span>
-
                 <Card className="m-3 flex-row flex-wrap" outline>
                     <Col sm={5} className="nopadding" >
                         <CardImg src="//placehold.it//300" alt="Card image cap" />

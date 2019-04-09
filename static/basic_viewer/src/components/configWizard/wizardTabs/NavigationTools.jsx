@@ -21,9 +21,7 @@ class NavigationTools extends Component {
         return (
             <Container>
                 <Row>
-                    <Col>
-                        <h3>Navigation Tools</h3>
-                    </Col>
+                    <Col><h3>Navigation Tools</h3></Col>
                 </Row>
                 <Row className="top-buffer">
                     <Col >
@@ -35,7 +33,6 @@ class NavigationTools extends Component {
                     </Col>
                 </Row>
             </Container>
-
         );
     }
 }

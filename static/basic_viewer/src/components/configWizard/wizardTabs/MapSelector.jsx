@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Col, InputGroup, Spinner, Input } from 'reactstrap';
+import { Col, InputGroup, Spinner, Input, FormGroup, CustomInput, Label } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -19,7 +19,8 @@ class MapSelector extends Component {
         loading: false,
         searchingMode: false,
         serchingText: null,
-        maps: []
+        maps: [],
+        showOnlyUserMaps: true
     };
 
     componentWillMount() {
@@ -78,6 +79,10 @@ class MapSelector extends Component {
         }
     }
 
+    mapsOwnerRadioChange = () => {
+        // this.setState((prevState) => ({ showOnlyUserMaps: !prevState.showOnlyUserMaps }), this.getMapsFromApi());
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -86,6 +91,13 @@ class MapSelector extends Component {
                         <span className="input-group-addon-icon"><SearchIcon /></span>
                         <Input onChange={this.searchByTitle} placeholder="search by title" />
                     </InputGroup>
+
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <CustomInput label="My Maps" checked={this.state.showOnlyUserMaps}
+                            onChange={this.mapsOwnerRadioChange} name="radio" type="radio" id="myMapsRadio" className="mr-3" />
+                        <CustomInput label="All Maps" checked={!this.state.showOnlyUserMaps}
+                            onChange={this.mapsOwnerRadioChange} name="radio" type="radio" id="allMapsRadio" />
+                    </div>
 
                     {this.state.loading ? <center><Spinner /></center> :
                         this.state.maps.length > 0 ?
