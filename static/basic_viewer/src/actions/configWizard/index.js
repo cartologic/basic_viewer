@@ -6,5 +6,6 @@ export {
     addBookmark,
     updateBookmark,
     removeBookmark,
-    updateNavTool
+    updateNavTool,
+    updateAccessConfig
 } from './appInstance';

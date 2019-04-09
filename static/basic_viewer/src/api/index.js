@@ -66,4 +66,8 @@ export function getMapsByTitle(offset, limit, title) {
     return apiInstance.get(`maps/?offset=${offset}&limit=${limit}&title__icontains=${title}`);
 }
 
+export function getUsers() {
+    return apiInstance.get(`users/?offset=0&limit=5`);
+}
+
 

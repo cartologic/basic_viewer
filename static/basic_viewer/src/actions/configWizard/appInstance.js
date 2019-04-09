@@ -56,3 +56,11 @@ export const updateNavTool = (navToolId) => {
         id: navToolId
     };
 };
+
+export const updateAccessConfig = (accessConfigId, usersArray) => {
+    return {
+        type: actionTypes.UPDATE_ACCESS_CONFIG,
+        id: accessConfigId,
+        users: usersArray
+    };
+};

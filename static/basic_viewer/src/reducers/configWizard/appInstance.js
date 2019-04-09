@@ -1,6 +1,4 @@
 import * as actionTypes from '../../actions/configWizard/constants';
-import { updateNavTool } from '../../actions/configWizard';
-
 
 let appInitialState = {
     app: null,
@@ -14,10 +12,20 @@ let appInitialState = {
         showExportMap: true,
         showLegend: true,
         bookmarks: []
+    },
+    access: {
+        whoCanView: [],
+        whoCanChangeMetadata: [],
+        whoCanDelete: [],
+        whoCanChangeConfiguration: []
     }
 }
 
 export function appInstance(state = appInitialState, action) {
+
+    const resetAppInstance = () => {
+        return appInitialState;
+    };
 
     const setAppInstanceInitialData = (state, map) => {
         return {
@@ -26,17 +34,13 @@ export function appInstance(state = appInitialState, action) {
             title: map.title,
             description: map.description,
             map_center: map.center,
-            map_zoom: map.zoom
-        };
-    };
-
-    const resetAppInstance = () => {
-        return {
-            app: null,
-            app_map: null,
-            title: null,
-            description: null,
+            map_zoom: map.zoom,
             config: {
+                enableHistory: true,
+                enableFeatureTable: true,
+                showLayerSwitcher: true,
+                showExportMap: true,
+                showLegend: true,
                 bookmarks: []
             }
         };
@@ -87,6 +91,15 @@ export function appInstance(state = appInitialState, action) {
         };
     };
 
+    const updateAccessConfig = (state, id, users) => {
+        let newAccessConfig = { ...state.access };
+        newAccessConfig[id] = users;
+        return {
+            ...state,
+            access: newAccessConfig
+        };
+    }
+
     switch (action.type) {
         case actionTypes.SET_INITIAL_DATA:
             return setAppInstanceInitialData(state, action.map);
@@ -111,6 +124,9 @@ export function appInstance(state = appInitialState, action) {
 
         case actionTypes.UPDATE_NAV_TOOL:
             return updateNavTool(state, action.id);
+
+        case actionTypes.UPDATE_ACCESS_CONFIG:
+            return updateAccessConfig(state, action.id, action.users);
 
         default:
             return state

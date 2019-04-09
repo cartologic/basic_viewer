@@ -6,17 +6,16 @@ import MapSelector from './wizardTabs/MapSelector';
 import GeneralConfig from './wizardTabs/GeneralConfig';
 import Bookmarks from './wizardTabs/Bookmarks';
 import NavigationTools from './wizardTabs/NavigationTools';
+import AccessConfiguration from './wizardTabs/AccessConfiguration';
 
 
 class WizardTabs extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.toggle = this.toggle.bind(this);
-
         this.state = {
-            activeTab: 'MapSelector'
+            activeTab: "MapSelector"
         };
     }
 
@@ -33,6 +32,8 @@ class WizardTabs extends React.Component {
             { id: 'AccessConfig', displayName: 'Access Configuration' },
             { id: 'Bookmarks', displayName: 'Bookmakrs' },
             { id: 'NavTools', displayName: 'Navigation Tools' }];
+
+        let bookmark = this.state.activeTab == "Bookmarks" ? <Bookmarks /> : null;
 
         return (
             <React.Fragment>
@@ -65,10 +66,17 @@ class WizardTabs extends React.Component {
                                 </Col>
                             </Row>
                         </TabPane>
+                        <TabPane tabId="AccessConfig" >
+                            <Row>
+                                <Col sm="12">
+                                    <AccessConfiguration />
+                                </Col>
+                            </Row>
+                        </TabPane>
                         <TabPane tabId="Bookmarks" >
                             <Row>
                                 <Col sm="12">
-                                    {this.state.activeTab == "Bookmarks" ? <Bookmarks /> : null}
+                                    {bookmark}
                                 </Col>
                             </Row>
                         </TabPane>
