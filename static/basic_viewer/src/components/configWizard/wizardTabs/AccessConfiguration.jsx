@@ -57,7 +57,7 @@ class AccessConfiguration extends Component {
                 <Row className="top-buffer">
                     <Col>
                         {this.state.accessConfig.map(config => {
-                            return <div key={config.id}>
+                            return <div key={config.id} className="mb-3">
                                 <Label><strong>{config.label}</strong></Label>
                                 <AsyncSelect
                                     isMulti

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Col, InputGroup, InputGroupAddon, Input } from 'reactstrap';
+import { Col, InputGroup, Spinner, Input } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -82,14 +82,16 @@ class MapSelector extends Component {
         return (
             <React.Fragment>
                 <Col>
-                    <InputGroup>
+                    <InputGroup className="mb-4">
                         <span className="input-group-addon-icon"><SearchIcon /></span>
                         <Input onChange={this.searchByTitle} placeholder="search by title" />
                     </InputGroup>
 
-                    {this.state.loading ? <div>....Loading</div> :
-                        this.state.maps.map((map) =>
-                            <MapCard key={map.id} map={map} />)}
+                    {this.state.loading ? <center><Spinner /></center> :
+                        this.state.maps.length > 0 ?
+                            this.state.maps.map((map) =>
+                                <MapCard key={map.id} map={map} />) :
+                            <strong><h3 style={{ textAlign: "center" }}>No Maps Found</h3></strong>}
 
                     <ReactPaginate
                         previousLabel={'previous'}

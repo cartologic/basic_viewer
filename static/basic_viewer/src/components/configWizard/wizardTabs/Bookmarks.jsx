@@ -2,7 +2,7 @@ import 'ol/ol.css'
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Col, Row, Input, Spinner, Button } from 'reactstrap';
+import { Col, Row, Input, Spinner, Button, Container } from 'reactstrap';
 import View from 'ol/view';
 import Map from 'ol/map';
 import Tile from 'ol/layer/tile'
@@ -90,31 +90,38 @@ class Bookmarks extends Component {
     render() {
         setTimeout(() => { this.state.map.updateSize() }, 100);
         return (
-            <Col>
-                <div id="map" ref="mapContainer" className="bookmark-map" /><hr />
-                <Row >
-                    <Col>
-                        <Button color="primary" disabled={!this.state.enableBookmarking} onClick={this.addBookmark} className="m-1 float-right">
-                            {!this.state.enableBookmarking ? <Spinner color="light" /> : null}{this.state.bookmarkButtonText}</Button>
-                    </Col>
-                </Row>
+            <Container>
                 <Row>
-                    <Col lg={12}>
-                        {this.props.bookmarks.map((bookmark, index) => {
-                            return <div key={index} >
-                                <div className='bookmark-item'>
-                                    <img src={bookmark.thumbnailDataURL} className="bookmark-image" alt="Bookmark Thumbnail" />
-                                    <div className="bookmar-form-group">
-                                        <Input value={bookmark.name} type="text" onChange={this.onNameChangeHandler(index)} id={`name${index}`} placeholder="Name" className='mb-2' />
-                                        <Input value={bookmark.description} type="textarea" onChange={this.onDescriptionChangeHandler(index)} id={`description${index}`} placeholder="Description" />
+                    <Col><h3>Bookmarks</h3></Col>
+                </Row>
+                <Row className="top-buffer">
+                    <Col>
+                        <div id="map" ref="mapContainer" className="bookmark-map" /><hr />
+                        <Row >
+                            <Col>
+                                <Button color="primary" disabled={!this.state.enableBookmarking} onClick={this.addBookmark} className="m-1 float-right">
+                                    {!this.state.enableBookmarking ? <Spinner color="light" /> : null}{this.state.bookmarkButtonText}</Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col lg={12}>
+                                {this.props.bookmarks.map((bookmark, index) => {
+                                    return <div key={index} >
+                                        <div className='bookmark-item'>
+                                            <img src={bookmark.thumbnailDataURL} className="bookmark-image" alt="Bookmark Thumbnail" />
+                                            <div className="bookmar-form-group">
+                                                <Input value={bookmark.name} type="text" onChange={this.onNameChangeHandler(index)} id={`name${index}`} placeholder="Name" className='mb-2' />
+                                                <Input value={bookmark.description} type="textarea" onChange={this.onDescriptionChangeHandler(index)} id={`description${index}`} placeholder="Description" />
+                                            </div>
+                                            <Button color="danger" onClick={() => this.removeBookmark(index)}>Remove</Button>
+                                        </div><hr />
                                     </div>
-                                    <Button color="danger" onClick={() => this.removeBookmark(index)}>Remove</Button>
-                                </div><hr />
-                            </div>
-                        })}
+                                })}
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
-            </Col>
+            </Container>
         );
     }
 }

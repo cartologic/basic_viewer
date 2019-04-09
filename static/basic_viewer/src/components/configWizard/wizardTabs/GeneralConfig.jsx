@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Col, FormGroup, Label, Input } from 'reactstrap';
+import { Col, FormGroup, Label, Input, Row, Container } from 'reactstrap';
 
 import * as actions from '../../../actions/configWizard/index';
 
@@ -17,26 +17,29 @@ class GeneralConfig extends Component {
 
     render() {
         return (
-            <Col>
-                <FormGroup>
-                    <Label>App Title</Label>
-                    <Input onChange={this.onChangeTitle}
-                        value={this.props.app.title || ''}
-                        type="text" placeholder="App Name" />
-                </FormGroup>
-                <FormGroup>
-                    <Label>Description (Optional)</Label>
-                    <Input onChange={this.onChangeDescription} type="text" placeholder="App Description"
-                        value={this.props.app.description || ''} />
-                </FormGroup>
-                <FormGroup>
-                    <Label>Keywords</Label>
-                    <Input type="select">
-                        <option>1</option>
-                        <option>2</option>
-                    </Input>
-                </FormGroup>
-            </Col>
+            <Container>
+                <Row>
+                    <Col>
+                        <h3>General Configuration</h3>
+                    </Col>
+                </Row>
+                <Row className="top-buffer">
+                    <Col>
+                        <FormGroup>
+                            <Label><strong>App Title</strong></Label>
+                            <Input onChange={this.onChangeTitle}
+                                value={this.props.app.title || ''}
+                                type="text" placeholder="App Name" />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label><strong>Description (Optional)</strong></Label>
+                            <Input onChange={this.onChangeDescription}
+                                value={this.props.app.description || ''}
+                                type="textarea" placeholder="App Description" />
+                        </FormGroup>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }
