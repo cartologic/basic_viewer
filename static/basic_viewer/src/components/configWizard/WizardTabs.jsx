@@ -11,15 +11,11 @@ import AccessConfiguration from './wizardTabs/AccessConfiguration';
 
 class WizardTabs extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-            activeTab: "MapSelector"
-        };
-    }
+    state = {
+        activeTab: "MapSelector"
+    };
 
-    toggle(tab) {
+    toggle = (tab) => {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab });
         }

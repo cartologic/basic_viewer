@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Row } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 
 import WizardTabs from './WizardTabs';
+import ActionBar from './ActionBar';
 
 
 class ContentGrid extends Component {
@@ -9,8 +10,10 @@ class ContentGrid extends Component {
     render() {
         return (
             <Row className="top-buffer">
-                <WizardTabs />
-                {/* <ActionBar/> */}
+                <Col>
+                    <Row> <ActionBar/> </Row>
+                    <Row> <WizardTabs/> </Row>
+                </Col>            
             </Row>
         );
     }

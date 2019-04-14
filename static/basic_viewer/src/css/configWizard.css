@@ -249,3 +249,7 @@
     padding: 20px;
     margin-bottom: 0;
 }
+
+.selected-bg{
+  background-color:#2c689c24
+}
