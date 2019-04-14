@@ -1,7 +1,8 @@
 import * as actionTypes from '../../actions/configWizard/constants';
 
+
 let appInitialState = {
-    app: null,
+    app: 1,
     app_map: null,
     title: null,
     description: null,
@@ -10,9 +11,9 @@ let appInitialState = {
         enableFeatureTable: true,
         showLayerSwitcher: true,
         showExportMap: true,
-        showLegend: true,
-        bookmarks: []
+        showLegend: true
     },
+    bookmarks: [],
     access: {
         whoCanView: [],
         whoCanChangeMetadata: [],
@@ -27,58 +28,60 @@ export function appInstance(state = appInitialState, action) {
         return appInitialState;
     };
 
-    const setAppInstanceInitialData = (state, map) => {
+    const setInitialData = (state, instanceToEdit) => {
+        return {
+            ...state,
+            app_map: instanceToEdit.app_map,
+            title: instanceToEdit.title,
+            description: instanceToEdit.description,
+            bookmarks: instanceToEdit.bookmarks,
+            config: instanceToEdit.config ? instanceToEdit.config : {
+                //if the saved instance has no config set initial config elements to false
+                enableHistory: false,
+                enableFeatureTable: false,
+                showLayerSwitcher: false,
+                showExportMap: false,
+                showLegend: false
+            },
+            access: instanceToEdit.access ? instanceToEdit.access : state.access,
+        };
+    };
+
+    const setMapData = (state, map) => {
         return {
             ...state,
             app_map: map.id,
-            title: map.title,
-            description: map.description,
+            title: state.title ? state.title : map.title,
+            description: state.description ? state.description : map.description,
             map_center: map.center,
             map_zoom: map.zoom,
-            config: {
-                enableHistory: true,
-                enableFeatureTable: true,
-                showLayerSwitcher: true,
-                showExportMap: true,
-                showLegend: true,
-                bookmarks: []
-            }
         };
     };
 
     const addBookmark = (state, bookmark) => {
-        let newBookmarks = [...state.config.bookmarks];
+        let newBookmarks = [...state.bookmarks];
         newBookmarks.push(bookmark);
-
-        let newConfig = { ...state.config };
-        newConfig.bookmarks = newBookmarks;
         return {
             ...state,
-            config: newConfig
+            bookmarks: newBookmarks
         };
     };
 
     const updateBookmark = (state, bookmark, index) => {
-        let newBookmarks = [...state.config.bookmarks];
+        let newBookmarks = [...state.bookmarks];
         newBookmarks.splice(index, 1, bookmark);
-
-        let newConfig = { ...state.config };
-        newConfig.bookmarks = newBookmarks;
         return {
             ...state,
-            config: newConfig
+            bookmarks: newBookmarks
         };
     };
 
     const removeBookmark = (state, index) => {
-        let newBookmarks = [...state.config.bookmarks];
+        let newBookmarks = [...state.bookmarks];
         newBookmarks.splice(index, 1);
-
-        let newConfig = { ...state.config };
-        newConfig.bookmarks = newBookmarks;
         return {
             ...state,
-            config: newConfig
+            bookmarks: newBookmarks
         };
     };
 
@@ -98,11 +101,14 @@ export function appInstance(state = appInitialState, action) {
             ...state,
             access: newAccessConfig
         };
-    }
+    };
 
     switch (action.type) {
         case actionTypes.SET_INITIAL_DATA:
-            return setAppInstanceInitialData(state, action.map);
+            return setInitialData(state, action.instanceToEdit);
+
+        case actionTypes.SET_MAP_DATA:
+            return setMapData(state, action.map);
 
         case actionTypes.RESET_SELECTED_MAP:
             return resetAppInstance();

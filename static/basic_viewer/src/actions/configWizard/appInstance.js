@@ -1,9 +1,16 @@
 import * as actionTypes from './constants';
 
 
-export const setAppInstanceInitialData = (selectedMap) => {
+export const setInitialData = (instance) => {
     return {
         type: actionTypes.SET_INITIAL_DATA,
+        instanceToEdit: instance
+    };
+};
+
+export const setMapData = (selectedMap) => {
+    return {
+        type: actionTypes.SET_MAP_DATA,
         map: selectedMap
     };
 };

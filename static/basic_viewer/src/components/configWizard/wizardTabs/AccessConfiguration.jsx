@@ -12,10 +12,22 @@ class AccessConfiguration extends Component {
 
     state = {
         accessConfig: [
-            { id: 'whoCanView', label: 'Who can view (optional)' },
-            { id: 'whoCanChangeMetadata', label: 'Who can change metadata (optional)' },
-            { id: 'whoCanDelete', label: 'Who can delete (optional)' },
-            { id: 'whoCanChangeConfiguration', label: 'Who can change configuration (optional)' },
+            {
+                id: 'whoCanView', label: 'Who can view (optional)',
+                placeholder: 'Select Users or leave it empty for public'
+            },
+            {
+                id: 'whoCanChangeMetadata', label: 'Who can change metadata (optional)',
+                placeholder: 'Select Users or leave it empty for owner(you) only'
+            },
+            {
+                id: 'whoCanDelete', label: 'Who can delete (optional)',
+                placeholder: 'Select Users or empty for owner(you) only'
+            },
+            {
+                id: 'whoCanChangeConfiguration', label: 'Who can change configuration (optional)',
+                placeholder: 'Select Users or empty for owner(you) only'
+            },
         ],
         users: []
     }
@@ -29,7 +41,7 @@ class AccessConfiguration extends Component {
         });
     }
 
-    filterColors = (inputValue) => {
+    searchOptions = (inputValue) => {
         return this.state.users.filter(i =>
             i.label.toLowerCase().includes(inputValue.toLowerCase())
         );
@@ -38,7 +50,7 @@ class AccessConfiguration extends Component {
     promiseOptions = inputValue =>
         new Promise(resolve => {
             setTimeout(() => {
-                resolve(this.filterColors(inputValue));
+                resolve(this.searchOptions(inputValue));
             }, 1000);
         });
 
@@ -67,7 +79,8 @@ class AccessConfiguration extends Component {
                                     closeMenuOnSelect={false}
                                     components={makeAnimated()}
                                     loadOptions={this.promiseOptions}
-                                    onChange={this.changeHandler(config.id)} />
+                                    onChange={this.changeHandler(config.id)}
+                                    placeholder={config.placeholder} />
                             </div>
                         })}
                     </Col>

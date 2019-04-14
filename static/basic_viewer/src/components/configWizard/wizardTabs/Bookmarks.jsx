@@ -7,18 +7,16 @@ import View from 'ol/view';
 import Map from 'ol/map';
 import Tile from 'ol/layer/tile'
 import OSM from 'ol/source/osm';
+import pica from 'pica/dist/pica'
 
 import * as actions from '../../../actions/configWizard/index';
 
 
 class Bookmarks extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            map: null,
-            enableBookmarking: false,
-            bookmarkButtonText: 'Add Bookmark'
-        }
+    state = {
+        map: null,
+        enableBookmarking: false,
+        bookmarkButtonText: 'Add Bookmark'
     }
 
     getInitialMap = () => {
@@ -60,13 +58,22 @@ class Bookmarks extends Component {
 
     addBookmark = () => {
         this.state.map.once('postcompose', (event) => {
-            let newBookmark = {
-                name: '',
-                description: '',
-                extent: this.state.map.getView().calculateExtent().join('/'),
-                thumbnailDataURL: event.context.canvas.toDataURL(),
-            }
-            this.props.addBookmark(newBookmark);
+            const picaResizer = pica();
+            let resizedCanvas = document.createElement('canvas')
+            resizedCanvas.width = 210
+            resizedCanvas.height = 150
+            picaResizer.resize(event.context.canvas, resizedCanvas)
+                .then(result => picaResizer.toBlob(result, 'image/jpeg', 0.90))
+                .then(blob => {
+                    let newBookmark = {
+                        name: '',
+                        description: '',
+                        extent: this.state.map.getView().calculateExtent(),
+                        projection: this.state.map.getView().getProjection().getCode(),
+                        thumbnail: URL.createObjectURL(blob),
+                    }
+                    this.props.addBookmark(newBookmark);
+                });
         });
         this.state.map.renderSync();
     }
@@ -99,7 +106,8 @@ class Bookmarks extends Component {
                         <div id="map" ref="mapContainer" className="bookmark-map" /><hr />
                         <Row >
                             <Col>
-                                <Button color="primary" disabled={!this.state.enableBookmarking} onClick={this.addBookmark} className="m-1 float-right">
+                                <Button color="primary" disabled={!this.state.enableBookmarking}
+                                    onClick={this.addBookmark} className="m-1 float-right">
                                     {!this.state.enableBookmarking ? <Spinner color="light" /> : null}{this.state.bookmarkButtonText}</Button>
                             </Col>
                         </Row>
@@ -108,7 +116,7 @@ class Bookmarks extends Component {
                                 {this.props.bookmarks.map((bookmark, index) => {
                                     return <div key={index} >
                                         <div className='bookmark-item'>
-                                            <img src={bookmark.thumbnailDataURL} className="bookmark-image" alt="Bookmark Thumbnail" />
+                                            <img src={bookmark.thumbnail} className="bookmark-image" alt="Bookmark Thumbnail" />
                                             <div className="bookmar-form-group">
                                                 <Input value={bookmark.name} type="text" onChange={this.onNameChangeHandler(index)} id={`name${index}`} placeholder="Name" className='mb-2' />
                                                 <Input value={bookmark.description} type="textarea" onChange={this.onDescriptionChangeHandler(index)} id={`description${index}`} placeholder="Description" />
@@ -130,7 +138,7 @@ const mapStateToProps = state => {
     return {
         mapCenter: state.appInstance.map_center,
         mapZoom: state.appInstance.map_zoom,
-        bookmarks: state.appInstance.config.bookmarks
+        bookmarks: state.appInstance.bookmarks
     }
 }
 

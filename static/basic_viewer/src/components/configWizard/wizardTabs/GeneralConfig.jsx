@@ -19,9 +19,7 @@ class GeneralConfig extends Component {
         return (
             <Container>
                 <Row>
-                    <Col>
-                        <h3>General Configuration</h3>
-                    </Col>
+                    <Col><h3>General Configuration</h3></Col>
                 </Row>
                 <Row className="top-buffer">
                     <Col>
@@ -29,7 +27,7 @@ class GeneralConfig extends Component {
                             <Label><strong>App Title</strong></Label>
                             <Input onChange={this.onChangeTitle}
                                 value={this.props.app.title || ''}
-                                type="text" placeholder="App Name" />
+                                type="text" placeholder="App Title" />
                         </FormGroup>
                         <FormGroup>
                             <Label><strong>Description (Optional)</strong></Label>

@@ -1,4 +1,8 @@
+export const SET_APP_MODE = "SET_APP_MODE";
+export const SET_TO_EDIT_INSTANCE = "SET_TO_EDIT_INSTANCE";
+
 export const SET_INITIAL_DATA = "SET_INITIAL_DATA";
+export const SET_MAP_DATA = "SET_MAP_DATA";
 export const RESET_SELECTED_MAP = "RESET_SELECTED_MAP";
 export const SET_TITLE = "SET_TITLE";
 export const SET_DESCRIPTION = "SET_DESCRIPTION";
