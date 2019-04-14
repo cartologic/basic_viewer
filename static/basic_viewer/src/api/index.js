@@ -58,16 +58,52 @@ export function fetchAppSettings(id) {
     }
 }
 
-export function getMaps(offset, limit) {
-    return apiInstance.get(`maps/?offset=${offset}&limit=${limit}`);
+function getCurrentUser() {
+    return apiInstance.get(`users/current_user/`);
 }
 
-export function getMapsByTitle(offset, limit, title) {
-    return apiInstance.get(`maps/?offset=${offset}&limit=${limit}&title__icontains=${title}`);
+export function getMaps(offset, limit, showOnlyUserMaps) {
+    if (showOnlyUserMaps) {
+        return getCurrentUser().then(
+            response => {
+                return apiInstance.get(`maps/?offset=${offset}&limit=${limit}&owner=${response.data.username}`);
+            });
+    } else
+        return apiInstance.get(`maps/?offset=${offset}&limit=${limit}`);
+}
+
+export function getMap(mapId) {
+    return apiInstance.get('maps/' + mapId);
+};
+
+export function getMapsByTitle(offset, limit, title, showOnlyUserMaps) {
+    if (showOnlyUserMaps) {
+        return getCurrentUser().then(
+            response => {
+                return apiInstance.get(`maps/?offset=${offset}&limit=${limit}&title__icontains=${title}&owner=${response.data.username}`);
+            });
+    } else
+        return apiInstance.get(`maps/?offset=${offset}&limit=${limit}&title__icontains=${title}`);
 }
 
 export function getUsers() {
-    return apiInstance.get(`users/?offset=0&limit=5`);
+    return apiInstance.get(`users`);
 }
 
+export function postAppInstance(appInstance) {
+    return apiInstance.post('appinstance/', appInstance);
+};
 
+export function getAppInstance(appInstanceId) {
+    return apiInstance.get('appinstance/' + appInstanceId);
+};
+
+export function updateAppInstance(id, appInstance) {
+    return apiInstance.patch('appinstance/' + id + '/eeee', {
+        app_map: appInstance.app_map,
+        title: appInstance.title,
+        description: appInstance.description,
+        config: appInstance.config,
+        //access and bookmarks are not supported yet
+    });
+};

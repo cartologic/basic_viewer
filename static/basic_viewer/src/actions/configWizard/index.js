@@ -1,5 +1,6 @@
 export {
-    setAppInstanceInitialData,
+    setInitialData,
+    setMapData,
     resetSelectedMap,
     setTitle,
     setDescription,
@@ -9,3 +10,8 @@ export {
     updateNavTool,
     updateAccessConfig
 } from './appInstance';
+
+export {
+    setAppMode,
+    setToEditInstance
+} from './config';
